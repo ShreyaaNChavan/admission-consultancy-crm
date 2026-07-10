@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Lead;
 use App\Models\Course;
 use App\Models\LeadSource;
-
+use App\Models\User;
+use App\Models\Role;
 class LeadController extends Controller
 {
     public function index()
@@ -64,5 +65,33 @@ class LeadController extends Controller
 
         return redirect('/leads')->with('success', 'Lead Added Successfully');
 
+    }
+
+    public function show(Lead $lead)
+    {
+        $counselorRole = Role::where('role_name', 'Counselor')->first();
+
+        $counselors = User::where('role_id', $counselorRole->id)
+            ->where('status', 1)
+            ->orderBy('name')
+            ->get();
+
+        return view('lead.show', compact('lead', 'counselors'));
+    }
+
+    public function assignCounselor(Request $request, Lead $lead)
+    {
+        $request->validate([
+            'assigned_to' => 'required|exists:users,id',
+        ]);
+
+        $lead->update([
+            'assigned_to' => $request->assigned_to,
+            'status' => 'Assigned',
+        ]);
+
+        return redirect()
+            ->route('leads.show', $lead)
+            ->with('success', 'Counselor assigned successfully.');
     }
 }

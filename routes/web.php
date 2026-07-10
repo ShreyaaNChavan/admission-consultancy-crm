@@ -62,3 +62,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+
+Route::get('/leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
+
+Route::post('/leads/{lead}/assign', [LeadController::class, 'assignCounselor'])->name('leads.assign');

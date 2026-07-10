@@ -14,9 +14,9 @@ return new class extends Migration {
 
             $table->id();
 
-            $table->string('lead_code',20)->unique();
+            $table->string('lead_code', 20)->unique();
 
-            $table->string('full_name',100);
+            $table->string('full_name', 100);
 
             $table->string('phone', 15);
 
@@ -27,7 +27,7 @@ return new class extends Migration {
                 ->constrained('courses')
                 ->nullOnDelete();
 
-            
+
             $table->foreignId('source_id')
                 ->nullable()
                 ->constrained('lead_sources')
@@ -40,10 +40,12 @@ return new class extends Migration {
 
             $table->enum('status', [
                 'New',
+                'Assigned',
                 'Contacted',
+                'Follow-up',
                 'Interested',
                 'Not Interested',
-                'Converted'
+                'Converted',
             ])->default('New');
 
             $table->text('remarks')->nullable();

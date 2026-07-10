@@ -43,6 +43,7 @@ class Lead extends Model
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
+
     public function course()
     {
         return $this->belongsTo(Course::class);
