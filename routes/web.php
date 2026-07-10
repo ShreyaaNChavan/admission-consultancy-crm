@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Lead\LeadController;
 use App\Http\Controllers\Master\CourseController;
 use App\Http\Controllers\Master\LeadSourceController;
+use App\Http\Controllers\FollowupController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -66,3 +67,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
 
 Route::post('/leads/{lead}/assign', [LeadController::class, 'assignCounselor'])->name('leads.assign');
+
+
+Route::post('/leads/{lead}/followups', [FollowupController::class, 'store'])
+    ->name('followups.store');

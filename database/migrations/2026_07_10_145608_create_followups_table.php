@@ -1,0 +1,56 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('followups', function (Blueprint $table) {
+
+            $table->id();
+
+            $table->foreignId('lead_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('counselor_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->date('followup_date');
+
+            $table->enum('followup_type', [
+                'Call',
+                'WhatsApp',
+                'Email',
+                'Walk-in',
+                'Meeting'
+            ]);
+
+            $table->text('remarks');
+
+            $table->date('next_followup')->nullable();
+
+            $table->enum('status', [
+                'Pending',
+                'Completed'
+            ])->default('Pending');
+
+            $table->timestamps();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('followups');
+    }
+};

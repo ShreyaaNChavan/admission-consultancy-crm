@@ -13,7 +13,23 @@ class LeadController extends Controller
 {
     public function index()
     {
-        $leads = Lead::latest()->get();
+        $user = auth()->user();
+
+        if ($user->role->role_name == 'Super Admin' || $user->role->role_name == 'Sales Manager') {
+
+            $leads = Lead::latest()->get();
+
+        } elseif ($user->role->role_name == 'Counselor') {
+
+            $leads = Lead::where('assigned_to', $user->id)
+                ->latest()
+                ->get();
+
+        } else {
+
+            $leads = collect();
+
+        }
 
         return view('lead.index', compact('leads'));
     }
@@ -76,11 +92,30 @@ class LeadController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('lead.show', compact('lead', 'counselors'));
+        $followups = $lead->followups()->latest()->get();
+
+        return view(
+            'lead.show',
+            compact(
+                'lead',
+                'counselors',
+                'followups'
+            )
+        );
     }
+
 
     public function assignCounselor(Request $request, Lead $lead)
     {
+        $user = auth()->user();
+
+        if (
+            $user->role->role_name != 'Super Admin' &&
+            $user->role->role_name != 'Sales Manager'
+        ) {
+            abort(403, 'Unauthorized');
+        }
+
         $request->validate([
             'assigned_to' => 'required|exists:users,id',
         ]);

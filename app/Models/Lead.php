@@ -53,4 +53,9 @@ class Lead extends Model
     {
         return $this->belongsTo(LeadSource::class, 'source_id');
     }
+
+    public function followups()
+    {
+        return $this->hasMany(Followup::class);
+    }
 }
