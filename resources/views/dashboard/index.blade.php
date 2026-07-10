@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Welcome to EdTech CRM Dashboard</h1>
+@section('content')
 
-<h2>{{ Auth::user()->name }}</h2>
+<h1 class="text-3xl font-bold">
 
-<h3>{{ Auth::user()->email }}</h3>
+    Welcome, {{ Auth::user()->name }}
 
-<form action="/logout" method="POST">
+</h1>
 
-    @csrf
+<p class="mt-2 text-gray-600">
 
-    <button type="submit">Logout</button>
+    You are logged in as <strong>{{ Auth::user()->email }}</strong>
 
-</form>
+</p>
 
-</body>
-</html>
+@endsection

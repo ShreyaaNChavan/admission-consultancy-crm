@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
 
             'role_id' => 1,
 
-            'name' => 'Super Admin',
+            'name' => 'Shreya Chavan',
 
             'email' => 'admin@crm.com',
 
@@ -30,3 +30,4 @@ class AdminSeeder extends Seeder
         ]);
     }
 }
+
