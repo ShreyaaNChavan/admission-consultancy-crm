@@ -22,4 +22,14 @@ class Course extends Model
         'status',
 
     ];
+
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
+    }
+
+    public function feeStructures()
+    {
+        return $this->hasMany(FeeStructure::class);
+    }
 }

@@ -58,4 +58,9 @@ class Lead extends Model
     {
         return $this->hasMany(Followup::class);
     }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
 }

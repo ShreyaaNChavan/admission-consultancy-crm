@@ -22,6 +22,16 @@
             </li>
 
             <li>
+
+                <a href="{{ route('batches.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+
+                    Batches
+
+                </a>
+
+            </li>
+
+            <li>
                 <a href="{{ route('lead-sources.index') }}" class="block px-5 py-3 hover:bg-blue-700">
                     Lead Sources
                 </a>
@@ -33,9 +43,13 @@
                 </a>
             </li>
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Admissions
+            <li>
+                <a href="{{ route('admissions.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+                    Admissions
+                </a>
             </li>
+
+
 
             <li class="px-5 py-3 hover:bg-blue-700">
                 Finance

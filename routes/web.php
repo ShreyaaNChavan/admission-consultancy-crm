@@ -6,6 +6,9 @@ use App\Http\Controllers\Lead\LeadController;
 use App\Http\Controllers\Master\CourseController;
 use App\Http\Controllers\Master\LeadSourceController;
 use App\Http\Controllers\FollowupController;
+use App\Http\Controllers\Admission\AdmissionController;
+use App\Http\Controllers\Master\BatchController;
+use App\Http\Controllers\Master\FeeStructureController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -71,3 +74,29 @@ Route::post('/leads/{lead}/assign', [LeadController::class, 'assignCounselor'])-
 
 Route::post('/leads/{lead}/followups', [FollowupController::class, 'store'])
     ->name('followups.store');
+
+Route::get('/admissions', [AdmissionController::class, 'index'])
+    ->name('admissions.index');
+
+Route::post('/leads/{lead}/convert', [AdmissionController::class, 'convert'])
+    ->name('admissions.convert');
+
+Route::get('/admissions/{student}', [AdmissionController::class, 'show'])
+    ->name('admissions.show');
+
+
+
+Route::resource('batches', BatchController::class);
+Route::resource('fee-structures', FeeStructureController::class);
+
+Route::get(
+    '/admissions/{student}/edit',
+    [AdmissionController::class, 'edit']
+)
+    ->name('admissions.edit');
+
+Route::put(
+    '/admissions/{student}',
+    [AdmissionController::class, 'update']
+)
+    ->name('admissions.update');
