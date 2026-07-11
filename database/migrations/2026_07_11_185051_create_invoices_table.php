@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('invoices', function (Blueprint $table) {
+
+            $table->id();
+
+            $table->string('invoice_no')->unique();
+
+            $table->foreignId('student_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->decimal('total_amount', 10, 2);
+
+            $table->enum('status', [
+                'Pending',
+                'Partially Paid',
+                'Paid'
+            ])->default('Pending');
+
+            $table->timestamps();
+
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('invoices');
+    }
+};

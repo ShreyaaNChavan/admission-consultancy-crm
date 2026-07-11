@@ -32,6 +32,16 @@
             </li>
 
             <li>
+
+                <a href="{{ route('fee-structures.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+
+                    Fee Structures
+
+                </a>
+
+            </li>
+
+            <li>
                 <a href="{{ route('lead-sources.index') }}" class="block px-5 py-3 hover:bg-blue-700">
                     Lead Sources
                 </a>

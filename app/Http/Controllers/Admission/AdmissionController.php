@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Lead;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Models\Batch;
+use App\Models\FeeStructure;
 
 class AdmissionController extends Controller
 {

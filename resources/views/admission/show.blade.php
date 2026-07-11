@@ -2,11 +2,22 @@
 
 @section('content')
 
-    <h2 class="text-3xl font-bold mb-6">
+    <div class="flex justify-between items-center mb-6">
 
-        Student Details
+        <h2 class="text-3xl font-bold">
 
-    </h2>
+            Student Details
+
+        </h2>
+
+        <a href="{{ route('admissions.edit', $student) }}"
+            class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+
+            Edit Admission
+
+        </a>
+
+    </div>
 
     <div class="bg-white shadow rounded p-6">
 
@@ -25,5 +36,6 @@
         <p><strong>Status :</strong> {{ $student->status }}</p>
 
     </div>
+
 
 @endsection
