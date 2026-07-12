@@ -47,4 +47,10 @@ class Student extends Model
     {
         return $this->belongsTo(FeeStructure::class);
     }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
+    
 }

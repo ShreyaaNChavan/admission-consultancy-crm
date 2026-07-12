@@ -9,6 +9,10 @@ use App\Http\Controllers\FollowupController;
 use App\Http\Controllers\Admission\AdmissionController;
 use App\Http\Controllers\Master\BatchController;
 use App\Http\Controllers\Master\FeeStructureController;
+use App\Http\Controllers\Finance\PaymentController;
+use App\Http\Controllers\Finance\ReceiptController;
+
+
 
 Route::get('/', function () {
     return redirect('/login');
@@ -95,8 +99,12 @@ Route::get(
 )
     ->name('admissions.edit');
 
-Route::put(
-    '/admissions/{student}',
-    [AdmissionController::class, 'update']
-)
-    ->name('admissions.update');
+Route::put('/admissions/{student}', [AdmissionController::class, 'update'])->name('admissions.update');
+
+Route::get('/payments/{invoice}', [PaymentController::class, 'index'])
+    ->name('payments.index');
+
+Route::post('/payments/{invoice}', [PaymentController::class, 'store'])
+    ->name('payments.store');
+
+Route::get('/receipt/{payment}', [ReceiptController::class, 'show'])->name('receipt.show');

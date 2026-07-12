@@ -8,6 +8,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\Batch;
 use App\Models\FeeStructure;
+use App\Models\Invoice;
 
 class AdmissionController extends Controller
 {
@@ -101,6 +102,20 @@ class AdmissionController extends Controller
             'batch_id' => $request->batch_id,
 
             'fee_structure_id' => $request->fee_structure_id,
+
+        ]);
+
+        Invoice::create([
+
+            'invoice_no' => 'INV' . time(),
+
+            'student_id' => $student->id,
+
+            $feeStructure = FeeStructure::findOrFail($request->fee_structure_id),
+
+            'total_amount' => $feeStructure->amount,
+
+            'status' => 'Pending',
 
         ]);
 

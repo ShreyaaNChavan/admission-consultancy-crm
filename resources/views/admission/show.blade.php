@@ -17,6 +17,13 @@
 
         </a>
 
+        <a href="{{ route('payments.index', $student->invoice) }}"
+            class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
+
+            Payments
+
+        </a>
+
     </div>
 
     <div class="bg-white shadow rounded p-6">

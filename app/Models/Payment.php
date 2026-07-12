@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Payment extends Model
+{
+
+    protected $fillable = [
+
+        'receipt_no',
+
+        'invoice_id',
+
+        'payment_date',
+
+        'amount',
+
+        'payment_mode',
+
+        'transaction_no',
+
+        'remarks',
+
+    ];
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
+
+}
