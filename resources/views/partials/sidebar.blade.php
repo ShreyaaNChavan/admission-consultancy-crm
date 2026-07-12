@@ -77,6 +77,20 @@
                 Settings
             </li>
 
+            <a href="{{ route('designations.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+
+                Designations
+
+            </a>
+
+            <li>
+                <a href="{{ route('attendance.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+
+                    Attendance
+
+                </a>
+            </li>
+
         @endif
 
         {{-- Sales Manager --}}

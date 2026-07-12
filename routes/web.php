@@ -11,7 +11,9 @@ use App\Http\Controllers\Master\BatchController;
 use App\Http\Controllers\Master\FeeStructureController;
 use App\Http\Controllers\Finance\PaymentController;
 use App\Http\Controllers\Finance\ReceiptController;
-
+use App\Http\Controllers\Settings\DesignationController;
+use App\Http\Controllers\HR\EmployeeController;
+use App\Http\Controllers\Academic\AttendanceController;
 
 
 Route::get('/', function () {
@@ -108,3 +110,19 @@ Route::post('/payments/{invoice}', [PaymentController::class, 'store'])
     ->name('payments.store');
 
 Route::get('/receipt/{payment}', [ReceiptController::class, 'show'])->name('receipt.show');
+
+
+
+Route::resource('designations', DesignationController::class);
+
+
+Route::resource('employees', EmployeeController::class);
+
+Route::get('/attendance', [AttendanceController::class, 'index'])
+    ->name('attendance.index');
+
+Route::get('/attendance/{batch}/mark', [AttendanceController::class, 'mark'])
+    ->name('attendance.mark');
+
+Route::post('/attendance/{batch}', [AttendanceController::class, 'store'])
+    ->name('attendance.store');
