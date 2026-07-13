@@ -59,6 +59,14 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route('students.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+
+                    Students
+
+                </a>
+            </li>
+
 
 
             <li class="px-5 py-3 hover:bg-blue-700">

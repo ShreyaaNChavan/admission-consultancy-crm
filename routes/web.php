@@ -14,6 +14,7 @@ use App\Http\Controllers\Finance\ReceiptController;
 use App\Http\Controllers\Settings\DesignationController;
 use App\Http\Controllers\HR\EmployeeController;
 use App\Http\Controllers\Academic\AttendanceController;
+use App\Http\Controllers\Academic\StudentController;
 
 
 Route::get('/', function () {
@@ -126,3 +127,11 @@ Route::get('/attendance/{batch}/mark', [AttendanceController::class, 'mark'])
 
 Route::post('/attendance/{batch}', [AttendanceController::class, 'store'])
     ->name('attendance.store');
+
+
+
+Route::get('/students', [StudentController::class, 'index'])
+    ->name('students.index');
+
+Route::get('/students/{student}', [StudentController::class, 'show'])
+    ->name('students.show');

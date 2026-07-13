@@ -40,9 +40,7 @@
 
             <div>
 
-                <label>Fees</label>
-
-                <input type="number" name="fees" class="border w-full p-2 rounded">
+                
 
             </div>
 

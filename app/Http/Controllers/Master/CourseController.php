@@ -38,7 +38,7 @@ class CourseController extends Controller
 
             'duration' => $request->duration,
 
-            'fees' => $request->fees,
+            //'fees' => $request->fees,
 
             'status' => true,
 
