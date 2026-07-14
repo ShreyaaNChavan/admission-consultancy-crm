@@ -58,4 +58,20 @@ class AttendanceController extends Controller
             ->route('attendance.index')
             ->with('success', 'Attendance saved successfully.');
     }
+
+    public function history(Batch $batch)
+    {
+        $attendances = Attendance::with('student')
+            ->where('batch_id', $batch->id)
+            ->orderByDesc('attendance_date')
+            ->get();
+
+        return view(
+            'attendance.history',
+            compact(
+                'batch',
+                'attendances'
+            )
+        );
+    }
 }

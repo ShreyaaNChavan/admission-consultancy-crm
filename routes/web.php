@@ -135,3 +135,9 @@ Route::get('/students', [StudentController::class, 'index'])
 
 Route::get('/students/{student}', [StudentController::class, 'show'])
     ->name('students.show');
+
+
+Route::get(
+    '/attendance/{batch}/history',
+    [AttendanceController::class, 'history']
+)->name('attendance.history');
