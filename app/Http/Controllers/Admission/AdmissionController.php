@@ -12,11 +12,36 @@ use App\Models\Invoice;
 
 class AdmissionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::latest()->get();
+        $query = Student::query();
 
-        return view('admission.index', compact('students'));
+        if ($request->filled('search')) {
+
+            $query->where('full_name', 'like', '%' . $request->search . '%');
+
+        }
+
+        if ($request->filled('course')) {
+
+            $query->where('course_id', $request->course);
+
+        }
+
+        if ($request->filled('status')) {
+
+            $query->where('status', $request->status);
+
+        }
+
+        $students = $query->latest()->get();
+
+        $courses = \App\Models\Course::where('status', 1)->get();
+
+        return view('admission.index', compact(
+            'students',
+            'courses'
+        ));
     }
 
     public function convert(Lead $lead)
@@ -123,4 +148,6 @@ class AdmissionController extends Controller
             ->route('admissions.show', $student)
             ->with('success', 'Admission completed successfully.');
     }
+
+
 }

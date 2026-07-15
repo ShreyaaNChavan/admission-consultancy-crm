@@ -1,128 +1,437 @@
 @extends('layouts.app')
-@section('page-title','Leads')
+@section('page-title', 'Leads')
 @section('content')
 
-    <div class="flex justify-between items-center mb-5">
+@section('content')
 
-        <h2 class="text-3xl font-bold">
-            Lead List
-        </h2>
+    <div class="space-y-6">
 
-        @if(
-                Auth::user()->role->role_name == 'Super Admin' ||
-                Auth::user()->role->role_name == 'Receptionist'
-            )
+        {{-- Success Message --}}
+        @if(session('success'))
 
-            <a href="{{ route('leads.create') }}" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+            <div class="rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
 
-                + Add Lead
+                {{ session('success') }}
 
-            </a>
+            </div>
 
         @endif
 
 
-    </div>
+        {{-- Header --}}
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
 
-    @if(session('success'))
+            <div>
 
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                <h1 class="text-3xl font-bold text-gray-900">
 
-            {{ session('success') }}
+                    Lead Management
+
+                </h1>
+
+                <p class="mt-1 text-gray-500">
+
+                    Manage enquiries, assign counselors and convert leads into admissions.
+
+                </p>
+
+            </div>
+
+            @if(
+                    Auth::user()->role->role_name == 'Super Admin' ||
+                    Auth::user()->role->role_name == 'Receptionist'
+                )
+
+                <a href="{{ route('leads.create') }}"
+                    class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+
+                    </svg>
+
+                    Add Lead
+
+                </a>
+
+            @endif
 
         </div>
 
-    @endif
 
-    <div class="bg-white rounded shadow overflow-hidden">
+        {{-- Filters --}}
+        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-        <table class="w-full">
+            <form method="GET">
 
-            <thead class="bg-gray-200">
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
 
-                <tr>
+                    <input type="text" name="search" placeholder="Search by name or phone..."
+                        value="{{ request('search') }}"
+                        class="rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
 
-                    <th class="p-3 text-left">Lead Code</th>
+                    <select name="status"
+                        class="rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
 
-                    <th class="p-3 text-left">Name</th>
+                        <option value="">All Status</option>
 
-                    <th class="p-3 text-left">Course</th>
+                        <option value="Assigned">Assigned</option>
 
-                    <th class="p-3 text-left">Source</th>
+                        <option value="Contacted">Contacted</option>
 
-                    <th class="p-3 text-left">Counselor</th>
+                        <option value="Follow-up">Follow-up</option>
 
-                    <th class="p-3 text-left">Status</th>
+                        <option value="Interested">Interested</option>
 
-                </tr>
+                        <option value="Converted">Converted</option>
 
-            </thead>
+                        <option value="Not Interested">Not Interested</option>
 
-            <tbody>
+                    </select>
 
-                @forelse($leads as $lead)
+                    <select name="source"
+                        class="rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
 
-                    <tr class="border-b hover:bg-gray-50">
+                        <option value="">All Sources</option>
 
-                        <td class="p-3">
+                        <option>Website</option>
 
-                            <a href="{{ route('leads.show', $lead) }}" class="text-blue-600 hover:underline">
+                        <option>Walk-in</option>
 
-                                {{ $lead->lead_code }}
+                        <option>Phone</option>
 
-                            </a>
+                        <option>WhatsApp</option>
 
-                        </td>
+                        <option>Referral</option>
 
-                        <td class="p-3">
+                    </select>
 
-                            {{ $lead->full_name }}
+                    <button
+                        class="rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
 
-                        </td>
+                        Search
 
-                        <td class="p-3">
+                    </button>
 
-                            {{ $lead->course?->course_name ?? '-' }}
+                </div>
 
-                        </td>
+            </form>
 
-                        <td class="p-3">
+        </div>
 
-                            {{ $lead->source?->source_name ?? '-' }}
 
-                        </td>
+        {{-- KPI --}}
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
 
-                        <td class="p-3">
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-                            {{ $lead->counselor?->name ?? '-' }}
+                <p class="text-sm text-gray-500">
 
-                        </td>
+                    Total Leads
 
-                        <td class="p-3">
+                </p>
 
-                            {{ $lead->status }}
+                <h2 class="mt-2 text-3xl font-bold text-gray-900">
 
-                        </td>
+                    {{ $leads->count() }}
 
-                    </tr>
+                </h2>
 
-                @empty
+            </div>
 
-                    <tr>
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-                        <td colspan="6" class="text-center p-5 text-gray-500">
+                <p class="text-sm text-gray-500">
 
-                            No Leads Found
+                    Interested
 
-                        </td>
+                </p>
 
-                    </tr>
+                <h2 class="mt-2 text-3xl font-bold text-green-600">
 
-                @endforelse
+                    {{ $leads->where('status', 'Interested')->count() }}
 
-            </tbody>
+                </h2>
 
-        </table>
+            </div>
+
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+
+                <p class="text-sm text-gray-500">
+
+                    Converted
+
+                </p>
+
+                <h2 class="mt-2 text-3xl font-bold text-blue-600">
+
+                    {{ $leads->where('status', 'Converted')->count() }}
+
+                </h2>
+
+            </div>
+
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+
+                <p class="text-sm text-gray-500">
+
+                    Pending Follow-up
+
+                </p>
+
+                <h2 class="mt-2 text-3xl font-bold text-orange-600">
+
+                    {{ $leads->where('status', 'Follow-up')->count() }}
+
+                </h2>
+
+            </div>
+
+        </div>
+        {{-- Leads Table --}}
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+            <div class="overflow-x-auto">
+
+                <table class="min-w-full">
+
+                    <thead class="border-b border-gray-200 bg-gray-50">
+
+                        <tr>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Lead
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Course
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Source
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Counselor
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Status
+                            </th>
+
+                            <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100 bg-white">
+
+                        @forelse($leads as $lead)
+
+                            <tr class="transition hover:bg-gray-50">
+
+                                {{-- Lead --}}
+                                <td class="px-6 py-5">
+
+                                    <div class="flex items-center gap-4">
+
+                                        <div
+                                            class="flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-600">
+
+                                            {{ strtoupper(substr($lead->full_name, 0, 1)) }}
+
+                                        </div>
+
+                                        <div>
+
+                                            <a href="{{ route('leads.show', $lead) }}"
+                                                class="font-semibold text-blue-600 hover:text-blue-800">
+
+                                                {{ $lead->full_name }}
+
+                                            </a>
+
+                                            <p class="mt-1 text-sm text-gray-500">
+
+                                                {{ $lead->lead_code }}
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                {{-- Course --}}
+                                <td class="px-6 py-5">
+
+                                    <span class="font-medium text-gray-700">
+
+                                        {{ $lead->course?->course_name ?? '-' }}
+
+                                    </span>
+
+                                </td>
+
+                                {{-- Source --}}
+                                <td class="px-6 py-5">
+
+                                    @php
+
+                                        $sourceClass = match ($lead->source?->source_name) {
+
+                                            'Website' => 'bg-blue-100 text-blue-700',
+
+                                            'Phone' => 'bg-green-100 text-green-700',
+
+                                            'WhatsApp' => 'bg-emerald-100 text-emerald-700',
+
+                                            'Walk-in' => 'bg-orange-100 text-orange-700',
+
+                                            default => 'bg-gray-100 text-gray-700'
+
+                                        };
+
+                                    @endphp
+
+                                    <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $sourceClass }}">
+
+                                        {{ $lead->source?->source_name ?? '-' }}
+
+                                    </span>
+
+                                </td>
+
+                                {{-- Counselor --}}
+                                <td class="px-6 py-5">
+
+                                    @if($lead->counselor)
+
+                                        <div class="flex items-center gap-3">
+
+                                            <div
+                                                class="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700">
+
+                                                {{ strtoupper(substr($lead->counselor->name, 0, 1)) }}
+
+                                            </div>
+
+                                            <span class="font-medium text-gray-700">
+
+                                                {{ $lead->counselor->name }}
+
+                                            </span>
+
+                                        </div>
+
+                                    @else
+
+                                        <span class="text-gray-400">
+
+                                            Not Assigned
+
+                                        </span>
+
+                                    @endif
+
+                                </td>
+
+                                {{-- Status --}}
+                                <td class="px-6 py-5">
+
+                                    @php
+
+                                        $statusClass = match ($lead->status) {
+
+                                            'Interested' => 'bg-green-100 text-green-700',
+
+                                            'Converted' => 'bg-blue-100 text-blue-700',
+
+                                            'Contacted' => 'bg-cyan-100 text-cyan-700',
+
+                                            'Assigned' => 'bg-indigo-100 text-indigo-700',
+
+                                            'Follow-up' => 'bg-yellow-100 text-yellow-700',
+
+                                            'Not Interested' => 'bg-red-100 text-red-700',
+
+                                            default => 'bg-gray-100 text-gray-700'
+
+                                        };
+
+                                    @endphp
+
+                                    <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $statusClass }}">
+
+                                        {{ $lead->status }}
+
+                                    </span>
+
+                                </td>
+
+                                {{-- Action --}}
+                                <td class="px-6 py-5 text-center">
+
+                                    <a href="{{ route('leads.show', $lead) }}"
+                                        class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700">
+
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="6" class="px-6 py-16 text-center">
+
+                                    <div class="flex flex-col items-center">
+
+                                        <svg class="mb-4 h-12 w-12 text-gray-300" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M9 17v-2a4 4 0 014-4h6" />
+
+                                        </svg>
+
+                                        <h3 class="text-lg font-semibold text-gray-700">
+
+                                            No Leads Found
+
+                                        </h3>
+
+                                        <p class="mt-2 text-sm text-gray-500">
+
+                                            New enquiries will appear here.
+
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
 
     </div>
 

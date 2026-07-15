@@ -11,25 +11,64 @@ use App\Models\User;
 use App\Models\Role;
 class LeadController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
-        if ($user->role->role_name == 'Super Admin' || $user->role->role_name == 'Sales Manager') {
+        if (
+            $user->role->role_name == 'Super Admin' ||
+            $user->role->role_name == 'Sales Manager'
+        ) {
 
-            $leads = Lead::latest()->get();
+            $query = Lead::query();
 
         } elseif ($user->role->role_name == 'Counselor') {
 
-            $leads = Lead::where('assigned_to', $user->id)
-                ->latest()
-                ->get();
+            $query = Lead::where('assigned_to', $user->id);
 
         } else {
 
-            $leads = collect();
+            $query = Lead::whereRaw('1=0');
 
         }
+
+        // Search
+        if ($request->filled('search')) {
+
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+
+                $q->where('full_name', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('lead_code', 'like', "%{$search}%");
+
+            });
+
+        }
+
+        // Status Filter
+        if ($request->filled('status')) {
+
+            $query->where('status', $request->status);
+
+        }
+
+        // Source Filter
+        if ($request->filled('source')) {
+
+            $query->whereHas('source', function ($q) use ($request) {
+
+                $q->where('source_name', $request->source);
+
+            });
+
+        }
+
+        $leads = $query
+            ->with(['course', 'source', 'counselor'])
+            ->latest()
+            ->get();
 
         return view('lead.index', compact('leads'));
     }
