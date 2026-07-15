@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('content')
+@section('page-title','Employees')
 
+@section('content')
     <div class="flex justify-between items-center mb-6">
 
         <h2 class="text-3xl font-bold">

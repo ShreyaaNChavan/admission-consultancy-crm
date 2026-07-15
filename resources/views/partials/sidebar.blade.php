@@ -1,176 +1,244 @@
-<div class="w-64 min-h-screen bg-blue-900 text-white">
+@php
+    $role = Auth::user()->role->role_name;
+@endphp
 
-    <div class="p-5 text-2xl font-bold border-b border-blue-700">
-        EdTech CRM
+<aside class="fixed left-0 top-0 z-40 h-screen w-72 overflow-y-auto border-r border-gray-200 bg-white shadow-sm">
+
+    {{-- Logo --}}
+    <div class="flex h-20 items-center border-b border-gray-200 px-8">
+
+        <div>
+
+            <h1 class="text-2xl font-bold tracking-wide text-gray-800">
+                EdTech CRM
+            </h1>
+
+            <p class="text-sm text-gray-500">
+                Education ERP
+            </p>
+
+        </div>
+
     </div>
 
-    <ul class="mt-5">
+    {{-- Navigation --}}
+    <nav class="px-5 py-6">
 
-        <li>
-            <a href="/dashboard" class="block px-5 py-3 hover:bg-blue-700">
+        {{-- Dashboard --}}
+        <div class="mb-8">
+
+            <a href="/dashboard"
+                class="flex items-center rounded-xl px-4 py-3 text-sm font-medium transition
+                {{ request()->is('dashboard') ? 'bg-blue-600 text-white shadow' : 'text-gray-700 hover:bg-gray-100' }}">
+
                 Dashboard
+
             </a>
-        </li>
 
-        {{-- Super Admin --}}
-        @if(Auth::user()->role->role_name == 'Super Admin')
+        </div>
 
-            <li>
-                <a href="{{ route('courses.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-                    Courses
-                </a>
-            </li>
+        {{-- CRM --}}
+        @if(in_array($role, ['Super Admin', 'Sales Manager', 'Counselor']))
 
-            <li>
+            <div class="mb-8">
 
-                <a href="{{ route('batches.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+                <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
 
-                    Batches
+                    CRM
 
-                </a>
+                </p>
 
-            </li>
+                <div class="space-y-1">
 
-            <li>
+                    <a href="{{ route('leads.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('leads.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
-                <a href="{{ route('fee-structures.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+                        Leads
 
-                    Fee Structures
+                    </a>
 
-                </a>
+                </div>
 
-            </li>
+            </div>
 
-            <li>
-                <a href="{{ route('lead-sources.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-                    Lead Sources
-                </a>
-            </li>
+        @endif
 
-            <li>
-                <a href="{{ route('leads.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-                    Leads
-                </a>
-            </li>
+        {{-- Academics --}}
+        @if($role == 'Super Admin')
 
-            <li>
-                <a href="{{ route('admissions.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+            <div class="mb-8">
+
+                <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+
+                    Academics
+
+                </p>
+
+                <div class="space-y-1">
+
+                    <a href="{{ route('courses.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('courses.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                        Courses
+
+                    </a>
+
+                    <a href="{{ route('batches.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('batches.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                        Batches
+
+                    </a>
+
+                    <a href="{{ route('attendance.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('attendance.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                        Attendance
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        @endif
+
+        {{-- Admissions --}}
+        @if($role == 'Super Admin')
+
+            <div class="mb-8">
+
+                <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+
                     Admissions
-                </a>
-            </li>
 
-            <li>
-                <a href="{{ route('students.index') }}" class="block px-5 py-3 hover:bg-blue-700">
+                </p>
 
-                    Students
+                <div class="space-y-1">
 
-                </a>
-            </li>
+                    <a href="{{ route('admissions.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('admissions.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
+                        Admissions
 
+                    </a>
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Finance
-            </li>
+                    <a href="{{ route('students.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('students.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                HR
-            </li>
+                        Students
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Reports
-            </li>
+                    </a>
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Settings
-            </li>
+                </div>
 
-            <a href="{{ route('designations.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-
-                Designations
-
-            </a>
-
-            <li>
-                <a href="{{ route('attendance.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-
-                    Attendance
-
-                </a>
-            </li>
+            </div>
 
         @endif
 
-        {{-- Sales Manager --}}
-        @if(Auth::user()->role->role_name == 'Sales Manager')
 
-            <li>
-                <a href="{{ route('leads.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-                    Leads
-                </a>
-            </li>
+        {{-- Finance --}}
+        @if(in_array($role, ['Super Admin', 'Accountant']))
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Reports
-            </li>
+            <div class="mb-8">
+
+                <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+
+                    Finance
+
+                </p>
+
+                <div class="space-y-1">
+
+                    <a href="{{ route('fee-structures.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('fee-structures.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                        Fee Structures
+
+                    </a>
+
+                </div>
+
+            </div>
 
         @endif
 
-        {{-- Counselor --}}
-        @if(Auth::user()->role->role_name == 'Counselor')
-
-            <li>
-                <a href="{{ route('leads.index') }}" class="block px-5 py-3 hover:bg-blue-700">
-                    My Leads
-                </a>
-            </li>
-
-        @endif
 
         {{-- HR --}}
-        @if(Auth::user()->role->role_name == 'HR')
+        @if(in_array($role, ['Super Admin', 'HR']))
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Employees
-            </li>
+            <div class="mb-8">
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Attendance
-            </li>
+                <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Payroll
-            </li>
+                    Human Resources
+
+                </p>
+
+                <div class="space-y-1">
+
+                    <a href="{{ route('employees.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('employees.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                        Employees
+
+                    </a>
+
+                    <a href="{{ route('designations.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                        {{ request()->routeIs('designations.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                        Designations
+
+                    </a>
+
+                </div>
+
+            </div>
 
         @endif
 
-        {{-- Accountant --}}
-        @if(Auth::user()->role->role_name == 'Accountant')
+        <div class="mt-10 border-t border-gray-200 pt-6">
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Finance
-            </li>
+            <div class="rounded-2xl bg-gray-50 p-4">
 
-            <li class="px-5 py-3 hover:bg-blue-700">
-                Reports
-            </li>
+                <p class="text-sm font-semibold text-gray-800">
 
-        @endif
+                    {{ Auth::user()->name }}
 
-        <li class="px-5 py-3">
+                </p>
 
-            <form action="/logout" method="POST">
+                <p class="mt-1 text-xs text-gray-500">
 
-                @csrf
+                    {{ Auth::user()->role->role_name }}
 
-                <button>
-                    Logout
-                </button>
+                </p>
 
-            </form>
+                <form action="/logout" method="POST" class="mt-4">
 
-        </li>
+                    @csrf
 
-    </ul>
+                    <button type="submit"
+                        class="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-100">
 
-</div>
+                        Logout
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</aside>

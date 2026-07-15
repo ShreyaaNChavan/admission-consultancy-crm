@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Lead;
+use App\Models\Student;
+use App\Models\Employee;
+use App\Models\Invoice;
+use App\Models\Payment;
 
 class LoginController extends Controller
 {
@@ -41,7 +46,38 @@ class LoginController extends Controller
      */
     public function dashboard()
     {
-        return view('dashboard.index');
+        $totalLeads = Lead::count();
+
+        $totalStudents = Student::count();
+
+        $totalEmployees = Employee::count();
+
+        $totalRevenue = Payment::sum('amount');
+
+        $pendingFees = Invoice::where('status', 'Pending')->sum('total_amount');
+
+        $recentLeads = Lead::latest()->take(5)->get();
+
+        $recentStudents = Student::latest()->take(5)->get();
+
+        $recentAdmissions = Student::latest()->take(5)->get();
+
+        $recentPayments = Payment::latest()->take(6)->get();
+
+        $pageTitle = 'Dashboard';
+
+        return view('dashboard.index', compact(
+            'pageTitle',
+            'totalLeads',
+            'totalStudents',
+            'totalEmployees',
+            'totalRevenue',
+            'pendingFees',
+            'recentLeads',
+            'recentStudents',
+            'recentAdmissions',
+            'recentPayments'
+        ));
     }
 
     /**

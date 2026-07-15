@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('page-title','Admissions')
 @section('content')
 
     <div class="flex justify-between items-center mb-6">

@@ -1,35 +1,61 @@
-<div class="bg-white shadow px-6 py-4 flex justify-between items-center">
+<div class="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-gray-200 bg-white px-8">
 
-    <h2 class="text-xl font-semibold">
+    {{-- Left Section --}}
+    <div>
 
-        Dashboard
+        <h1 class="text-2xl font-semibold text-gray-900">
+            {{ $pageTitle }}
+        </h1>
 
-    </h2>
+        <p class="mt-1 text-sm text-gray-500">
 
-    <div class="flex items-center gap-4">
+            Welcome back,
 
-        <div>
+            <span class="font-medium text-gray-700">
 
-            <strong>{{ Auth::user()->name }}</strong>
+                {{ Auth::user()->name }}
 
-            <br>
+            </span>
 
-            <small>{{ Auth::user()->role->role_name }}</small>
-            
+        </p>
+
+    </div>
+
+    {{-- Right Section --}}
+    <div class="flex items-center gap-6">
+
+        {{-- Search --}}
+        <div class="hidden lg:block">
+
+            <input type="text" placeholder="Search..."
+                class="w-72 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm outline-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
 
         </div>
 
-        <form action="/logout" method="POST">
+        {{-- User Info --}}
+        <div class="text-right">
 
-            @csrf
+            <p class="text-sm font-semibold text-gray-800">
 
-            <button class="bg-red-500 text-white px-4 py-2 rounded">
+                {{ Auth::user()->name }}
 
-                Logout
+            </p>
 
-            </button>
+            <p class="text-xs text-gray-500">
 
-        </form>
+                {{ Auth::user()->role->role_name }}
+
+            </p>
+
+        </div>
+
+        {{-- Avatar --}}
+        <div
+            class="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white shadow">
+
+            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
+        </div>
 
     </div>
 

@@ -1,39 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>EdTech CRM</title>
-
-    @vite(['resources/css/app.css','resources/js/app.js'])
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>EdTech CRM ERP</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 overflow-x-hidden">
+    <div class="min-h-screen">
 
-<div class="flex">
+        {{-- Sidebar --}}
+        @include('partials.sidebar')
 
-    {{-- Sidebar --}}
-    @include('partials.sidebar')
+        {{-- Main Area --}}
+        <div class="ml-72 min-h-screen">
 
-    <div class="flex-1">
+            {{-- Navbar --}}
+            @include('partials.navbar', [
+                'pageTitle' => trim($__env->yieldContent('page-title')) ?: 'Dashboard'
+            ])
 
-        {{-- Navbar --}}
-        @include('partials.navbar')
+            <main class="p-6">
 
-        <main class="p-6">
+                <div class="mx-auto w-full max-w-7xl">
 
-            @yield('content')
+                    @yield('content')
 
-        </main>
+                </div>
+
+            </main>
+
+        </div>
 
     </div>
 
-</div>
+    @stack('scripts')
 
 </body>
 
