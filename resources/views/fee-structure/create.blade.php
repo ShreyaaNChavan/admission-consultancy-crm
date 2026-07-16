@@ -1,86 +1,178 @@
 @extends('layouts.app')
 
+@section('page-title','Add Fee Structure')
+
 @section('content')
 
-    <h2 class="text-3xl font-bold mb-6">
+<div class="max-w-5xl mx-auto">
 
-        Add Fee Structure
+    {{-- Header --}}
+    <div class="mb-8">
 
-    </h2>
+        <h2 class="text-3xl font-bold text-gray-900">
+
+            Add Fee Structure
+
+        </h2>
+
+        <p class="mt-2 text-sm font-medium text-gray-500">
+
+            Create a fee plan for a course.
+
+        </p>
+
+    </div>
 
     <form action="{{ route('fee-structures.store') }}" method="POST">
 
         @csrf
 
-        <div class="grid grid-cols-2 gap-5">
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
-            <div>
+            {{-- Card Header --}}
+            <div class="border-b border-gray-200 px-8 py-5">
 
-                <label>Course</label>
+                <h3 class="text-lg font-semibold text-gray-900">
 
-                <select name="course_id" class="border w-full p-2 rounded">
+                    Fee Structure Information
 
-                    @foreach($courses as $course)
+                </h3>
 
-                        <option value="{{ $course->id }}">
+            </div>
 
-                            {{ $course->course_name }}
+            {{-- Form --}}
+            <div class="grid grid-cols-1 gap-6 p-8 md:grid-cols-2">
+
+                {{-- Course --}}
+                <div>
+
+                    <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                        Course
+
+                    </label>
+
+                    <select
+                        name="course_id"
+                        required
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                        <option value="">
+
+                            Select Course
 
                         </option>
 
-                    @endforeach
+                        @foreach($courses as $course)
 
-                </select>
+                            <option
+                                value="{{ $course->id }}"
+                                {{ old('course_id') == $course->id ? 'selected' : '' }}>
+
+                                {{ $course->course_name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </div>
+
+                {{-- Fee Plan --}}
+                <div>
+
+                    <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                        Fee Plan
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="fee_name"
+                        value="{{ old('fee_name') }}"
+                        placeholder="Regular / Scholarship / Installment"
+                        required
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                </div>
+
+                {{-- Amount --}}
+                <div>
+
+                    <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                        Amount (₹)
+
+                    </label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        value="{{ old('amount') }}"
+                        placeholder="50000"
+                        required
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                </div>
+
+                {{-- Status --}}
+                <div>
+
+                    <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                        Status
+
+                    </label>
+
+                    <select
+                        name="status"
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>
+
+                            Active
+
+                        </option>
+
+                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>
+
+                            Inactive
+
+                        </option>
+
+                    </select>
+
+                </div>
 
             </div>
 
-            <div>
+            {{-- Footer --}}
+            <div class="flex justify-end gap-4 border-t border-gray-200 px-8 py-5">
 
-                <label>Fee Plan</label>
+                <a
+                    href="{{ route('fee-structures.index') }}"
+                    class="rounded-xl border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100">
 
-                <input type="text" name="fee_name" class="border w-full p-2 rounded"
-                    placeholder="Regular / Scholarship / Installment">
+                    Cancel
 
-            </div>
+                </a>
 
-            <div>
+                <button
+                    type="submit"
+                    class="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
 
-                <label>Amount</label>
+                    Save Fee Structure
 
-                <input type="number" name="amount" class="border w-full p-2 rounded">
-
-            </div>
-
-            <div>
-
-                <label>Status</label>
-
-                <select name="status" class="border w-full p-2 rounded">
-
-                    <option value="1">
-
-                        Active
-
-                    </option>
-
-                    <option value="0">
-
-                        Inactive
-
-                    </option>
-
-                </select>
+                </button>
 
             </div>
 
         </div>
 
-        <button class="mt-6 bg-blue-600 text-white px-6 py-2 rounded">
-
-            Save Fee Structure
-
-        </button>
-
     </form>
+
+</div>
 
 @endsection

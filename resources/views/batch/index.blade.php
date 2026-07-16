@@ -1,98 +1,278 @@
 @extends('layouts.app')
 
+@section('page-title', 'Batches')
+
 @section('content')
 
-    <div class="flex justify-between items-center mb-6">
+    <div class="space-y-6">
 
-        <h2 class="text-3xl font-bold">
+        {{-- Filters --}}
+        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-            Batches
+            <form method="GET" action="{{ route('batches.index') }}">
 
-        </h2>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
 
-        <a href="{{ route('batches.create') }}" class="bg-blue-600 text-white px-5 py-2 rounded">
+                    {{-- Search --}}
+                    <div>
 
-            + Add Batch
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search batch..."
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
 
-        </a>
+                    </div>
 
-    </div>
+                    {{-- Course --}}
+                    <div>
 
-    @if(session('success'))
+                        <select name="course"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
 
-        <div class="bg-green-100 border border-green-400 text-green-700 p-3 rounded mb-4">
+                            <option value="">All Courses</option>
 
-            {{ session('success') }}
+                            @foreach($courses as $course)
+
+                                <option value="{{ $course->id }}" {{ request('course') == $course->id ? 'selected' : '' }}>
+
+                                    {{ $course->course_name }}
+
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+                    {{-- Status --}}
+                    <div>
+
+                        <select name="status"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                            <option value="">All Status</option>
+
+                            <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>
+                                Active
+                            </option>
+
+                            <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    {{-- Search --}}
+                    <div>
+
+                        <button
+                            class="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
 
         </div>
 
-    @endif
+        {{-- Header --}}
+        <div class="flex items-center justify-between">
 
-    <div class="bg-white rounded shadow overflow-hidden">
+            <div>
 
-        <table class="w-full">
+                <h2 class="text-3xl font-bold text-gray-900">
 
-            <thead class="bg-gray-200">
+                    Batches
 
-                <tr>
+                </h2>
 
-                    <th class="p-3 text-left">Batch</th>
+                <p class="mt-1 text-sm text-gray-500">
 
-                    <th class="p-3 text-left">Course</th>
+                    Manage training batches.
 
-                    <th class="p-3 text-left">Trainer</th>
+                </p>
 
-                    <th class="p-3 text-left">Timing</th>
+            </div>
 
-                    <th class="p-3 text-left">Capacity</th>
+            <div class="flex items-center gap-4">
 
-                    <th class="p-3 text-left">Status</th>
+                <div class="rounded-xl bg-blue-50 px-5 py-3">
 
-                </tr>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 
-            </thead>
+                        Total Batches
 
-            <tbody>
+                    </p>
 
-                @forelse($batches as $batch)
+                    <p class="mt-1 text-2xl font-bold text-blue-700">
 
-                    <tr class="border-b">
+                        {{ $batches->total() }}
 
-                        <td class="p-3">{{ $batch->batch_name }}</td>
+                    </p>
 
-                        <td class="p-3">{{ $batch->course->course_name }}</td>
+                </div>
 
-                        <td class="p-3">{{ $batch->trainer_name }}</td>
+                <a href="{{ route('batches.create') }}"
+                    class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
 
-                        <td class="p-3">{{ $batch->timing }}</td>
+                    + Add Batch
 
-                        <td class="p-3">{{ $batch->capacity }}</td>
+                </a>
 
-                        <td class="p-3">
+            </div>
 
-                            {{ $batch->status ? 'Active' : 'Inactive' }}
+        </div>
 
-                        </td>
+        {{-- Table --}}
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
-                    </tr>
+            <div class="overflow-x-auto">
 
-                @empty
+                <table class="min-w-full">
 
-                    <tr>
+                    <thead class="border-b border-gray-200 bg-gray-50">
 
-                        <td colspan="6" class="text-center p-5">
+                        <tr>
 
-                            No Batches Found
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Batch
+                            </th>
 
-                        </td>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Course
+                            </th>
 
-                    </tr>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Trainer
+                            </th>
 
-                @endforelse
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Timing
+                            </th>
 
-            </tbody>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Capacity
+                            </th>
 
-        </table>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100 bg-white">
+
+                        @forelse($batches as $batch)
+
+                            <tr class="transition hover:bg-gray-50">
+
+                                <td class="px-6 py-4 font-semibold text-gray-900">
+
+                                    {{ $batch->batch_name }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-700">
+
+                                    {{ $batch->course?->course_name }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-700">
+
+                                    {{ $batch->faculty?->full_name ?? '-' }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-700">
+
+                                    {{ $batch->timing }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-700">
+
+                                    {{ $batch->capacity }}
+
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    @if($batch->status)
+
+                                        <span
+                                            class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+
+                                            Active
+
+                                        </span>
+
+                                    @else
+
+                                        <span
+                                            class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+
+                                            Inactive
+
+                                        </span>
+
+                                    @endif
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="6" class="px-6 py-12 text-center">
+
+                                    <div class="flex flex-col items-center">
+
+                                        <svg class="mb-3 h-12 w-12 text-gray-300" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+
+                                        </svg>
+
+                                        <p class="text-lg font-semibold text-gray-700">
+
+                                            No Batches Found
+
+                                        </p>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+
+                                            Create a batch to begin assigning students.
+
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
 
     </div>
 

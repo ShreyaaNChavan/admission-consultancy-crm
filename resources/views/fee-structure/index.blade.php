@@ -1,100 +1,255 @@
 @extends('layouts.app')
 
+@section('page-title', 'Fee Structures')
+
 @section('content')
 
-    <div class="flex justify-between items-center mb-6">
+    <div class="space-y-6">
 
-        <h2 class="text-3xl font-bold">
-            Fee Structures
-        </h2>
+        {{-- Filters --}}
+        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-        <a href="{{ route('fee-structures.create') }}" class="bg-blue-600 text-white px-5 py-2 rounded">
+            <form method="GET" action="{{ route('fee-structures.index') }}">
 
-            + Add Fee Structure
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-        </a>
+                    {{-- Search --}}
+                    <div>
 
-    </div>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search fee structure..."
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
 
-    @if(session('success'))
+                    </div>
 
-        <div class="bg-green-100 border border-green-400 text-green-700 p-3 rounded mb-4">
+                    {{-- Status --}}
+                    <div>
 
-            {{ session('success') }}
+                        <select name="status"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                            <option value="">All Status</option>
+
+                            <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>
+                                Active
+                            </option>
+
+                            <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    {{-- Search Button --}}
+                    <div>
+
+                        <button
+                            class="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
 
         </div>
 
-    @endif
+        {{-- Success Message --}}
+        @if(session('success'))
 
-    <div class="bg-white rounded shadow overflow-hidden">
+            <div class="rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-green-700">
 
-        <table class="w-full">
+                {{ session('success') }}
 
-            <thead class="bg-gray-200">
+            </div>
 
-                <tr>
+        @endif
 
-                    <th class="p-3 text-left">Course</th>
+        {{-- Header --}}
+        <div class="flex items-center justify-between">
 
-                    <th class="p-3 text-left">Fee Plan</th>
+            <div>
 
-                    <th class="p-3 text-left">Amount</th>
+                <h2 class="text-3xl font-bold text-gray-900">
 
-                    <th class="p-3 text-left">Status</th>
+                    Fee Structures
 
-                </tr>
+                </h2>
 
-            </thead>
+                <p class="mt-1 text-sm text-gray-500">
 
-            <tbody>
+                    Manage course fee plans.
 
-                @forelse($fees as $fee)
+                </p>
 
-                    <tr class="border-b">
+            </div>
 
-                        <td class="p-3">
+            <div class="flex items-center gap-4">
 
-                            {{ $fee->course->course_name }}
+                <div class="rounded-xl bg-blue-50 px-5 py-3">
 
-                        </td>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 
-                        <td class="p-3">
+                        Total Fee Plans
 
-                            {{ $fee->fee_name }}
+                    </p>
 
-                        </td>
+                    <p class="mt-1 text-2xl font-bold text-blue-700">
 
-                        <td class="p-3">
+                        {{ $fees->count() }}
 
-                            ₹{{ number_format($fee->amount, 2) }}
+                    </p>
 
-                        </td>
+                </div>
 
-                        <td class="p-3">
+                <a href="{{ route('fee-structures.create') }}"
+                    class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
 
-                            {{ $fee->status ? 'Active' : 'Inactive' }}
+                    + Add Fee Structure
 
-                        </td>
+                </a>
 
-                    </tr>
+            </div>
 
-                @empty
+        </div>
 
-                    <tr>
+        {{-- Table --}}
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
-                        <td colspan="4" class="text-center p-5">
+            <div class="overflow-x-auto">
 
-                            No Fee Structures Found
+                <table class="min-w-full">
 
-                        </td>
+                    <thead class="border-b border-gray-200 bg-gray-50">
 
-                    </tr>
+                        <tr>
 
-                @endforelse
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Course
+                            </th>
 
-            </tbody>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Fee Plan
+                            </th>
 
-        </table>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Amount
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100 bg-white">
+
+                        @forelse($fees as $fee)
+
+                            <tr class="transition hover:bg-gray-50">
+
+                                <td class="px-6 py-4 font-medium text-gray-900">
+
+                                    {{ $fee->course->course_name }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-700">
+
+                                    {{ $fee->fee_name }}
+
+                                </td>
+
+                                <td class="px-6 py-4 font-semibold text-green-600">
+
+                                    ₹{{ number_format($fee->amount, 2) }}
+
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    @if($fee->status)
+
+                                        <span
+                                            class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+
+                                            Active
+
+                                        </span>
+
+                                    @else
+
+                                        <span
+                                            class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+
+                                            Inactive
+
+                                        </span>
+
+                                    @endif
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="4" class="px-6 py-12 text-center">
+
+                                    <div class="flex flex-col items-center">
+
+                                        <svg class="mb-3 h-12 w-12 text-gray-300" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M12 8c-3.866 0-7 3.134-7 7h14c0-3.866-3.134-7-7-7zm0-6a2 2 0 110 4 2 2 0 010-4z" />
+
+                                        </svg>
+
+                                        <p class="text-lg font-semibold text-gray-700">
+
+                                            No Fee Structures Found
+
+                                        </p>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+
+                                            Create your first fee structure.
+
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {{-- Pagination --}}
+        <div>
+
+            {{ $fees->withQueryString()->links() }}
+
+        </div>
 
     </div>
 

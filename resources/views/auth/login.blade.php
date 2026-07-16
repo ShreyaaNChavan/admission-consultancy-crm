@@ -1,96 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CRM Login</title>
+    <title>Login | EdTech CRM ERP</title>
 
-    @vite(['resources/css/app.css','resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
 <body class="bg-gray-100">
 
-<div class="min-h-screen flex items-center justify-center">
+    <div class="min-h-screen flex">
 
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        {{-- Left Side --}}
+        <div class="w-full lg:w-1/2 bg-white flex items-center justify-center px-8">
 
-        <div class="text-center mb-8">
+            <div class="w-full max-w-md">
 
-            <h1 class="text-3xl font-bold text-blue-700">
-                EdTech CRM
-            </h1>
+                {{-- Logo --}}
+                <div class="mb-10">
 
-            <p class="text-gray-500 mt-2">
-                Login to continue
-            </p>
+                    <h1 class="text-4xl font-bold text-gray-900">
+
+                        Sign In
+
+                    </h1>
+
+                    <p class="mt-3 text-gray-500">
+
+                        Enter your email and password to sign in.
+
+                    </p>
+
+                </div>
+
+                {{-- Error --}}
+                @if(session('error'))
+
+                    <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+
+                        {{ session('error') }}
+
+                    </div>
+
+                @endif
+
+                {{-- Login Form --}}
+                <form action="/login" method="POST">
+
+                    @csrf
+
+                    {{-- Email --}}
+                    <div class="mb-5">
+
+                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+
+                            Email
+
+                        </label>
+
+                        <input type="email" name="email" placeholder="Enter your email" required
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none">
+
+                    </div>
+
+                    {{-- Password --}}
+                    <div class="mb-5">
+
+                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+
+                            Password
+
+                        </label>
+
+                        <input type="password" name="password" placeholder="Enter your password" required
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none">
+
+                    </div>
+
+                    {{-- Remember --}}
+                    <div class="mb-8 flex items-center justify-between">
+
+                        <label class="flex items-center gap-2 text-sm text-gray-600">
+
+                            <input type="checkbox" class="rounded">
+
+                            Remember Me
+
+                        </label>
+
+                        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+
+                            Forgot Password?
+
+                        </a>
+
+                    </div>
+
+                    {{-- Button --}}
+                    <button type="submit"
+                        class="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
+
+                        Sign In
+
+                    </button>
+
+                </form>
+
+            </div>
 
         </div>
 
-        @if(session('error'))
+        {{-- Right Side --}}
+        <div class="relative hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden bg-[#1E1B5E]">
 
-            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+            {{-- Grid Background --}}
+            <div class="absolute inset-0 opacity-10">
 
-                {{ session('error') }}
+                <svg width="100%" height="100%">
 
-            </div>
+                    <defs>
 
-        @endif
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
 
-        <form action="/login" method="POST">
+                            <path d="M40 0H0V40" fill="none" stroke="white" stroke-width="1" />
 
-            @csrf
+                        </pattern>
 
-            <div class="mb-5">
+                    </defs>
 
-                <label class="block mb-2 font-medium">
+                    <rect width="100%" height="100%" fill="url(#grid)" />
 
-                    Email
-
-                </label>
-
-                <input
-                    type="email"
-                    name="email"
-                    class="w-full border rounded-lg px-4 py-2"
-                    required
-                >
+                </svg>
 
             </div>
 
-            <div class="mb-6">
+            <div class="relative text-center text-white">
 
-                <label class="block mb-2 font-medium">
+                <div class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl ">
 
-                    Password
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
 
-                </label>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 3v18M12 7v14M19 11v10" />
 
-                <input
-                    type="password"
-                    name="password"
-                    class="w-full border rounded-lg px-4 py-2"
-                    required
-                >
+                    </svg> -->
+
+                </div>
+
+                <h1 class="text-5xl font-bold">
+
+                    AutoSigma
+
+                </h1>
+
+                <p class="mt-5 text-xl text-blue-100">
+
+                    Education CRM & ERP System
+
+                </p>
+
+                <p class="mt-2 text-sm text-blue-200">
+
+                    Smart • Secure • Scalable
+
+                </p>
 
             </div>
 
-            <button
-                type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
-
-                Login
-
-            </button>
-
-        </form>
+        </div>
 
     </div>
 
-</div>
-
 </body>
+
 </html>

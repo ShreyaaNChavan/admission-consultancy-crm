@@ -8,18 +8,52 @@ use App\Models\Course;
 
 class CourseController extends Controller
 {
-    public function index()
+    /**
+     * Display Course List
+     */
+    public function index(Request $request)
     {
-        $courses = Course::latest()->get();
+        $query = Course::query();
+
+        // Search
+        if ($request->filled('search')) {
+
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+
+                $q->where('course_code', 'like', "%{$search}%")
+                    ->orWhere('course_name', 'like', "%{$search}%");
+
+            });
+        }
+
+        // Status Filter
+        if ($request->filled('status')) {
+
+            $query->where('status', $request->status);
+
+        }
+
+        // Pagination
+        $courses = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('master.courses.index', compact('courses'));
     }
 
+    /**
+     * Show Create Form
+     */
     public function create()
     {
         return view('master.courses.create');
     }
 
+    /**
+     * Store Course
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -27,6 +61,10 @@ class CourseController extends Controller
             'course_code' => 'required|unique:courses',
 
             'course_name' => 'required',
+
+            'duration' => 'nullable|numeric',
+
+            'status' => 'required',
 
         ]);
 
@@ -38,13 +76,12 @@ class CourseController extends Controller
 
             'duration' => $request->duration,
 
-            //'fees' => $request->fees,
-
-            'status' => true,
+            'status' => $request->status,
 
         ]);
 
-        return redirect()->route('courses.index')
-                         ->with('success','Course Added Successfully');
+        return redirect()
+            ->route('courses.index')
+            ->with('success', 'Course Added Successfully');
     }
 }

@@ -9,18 +9,35 @@ use Illuminate\Http\Request;
 
 class FeeStructureController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $fees = FeeStructure::with('course')
+
+            ->when($request->search, function ($query) use ($request) {
+
+                $query->where('fee_name', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('course', function ($q) use ($request) {
+                        $q->where('course_name', 'like', '%' . $request->search . '%');
+                    });
+
+            })
+
+            ->when($request->filled('status'), function ($query) use ($request) {
+
+                $query->where('status', $request->status);
+
+            })
+
             ->latest()
-            ->get();
+
+            ->paginate(10);
 
         return view('fee-structure.index', compact('fees'));
     }
 
     public function create()
     {
-        $courses = Course::where('status',1)
+        $courses = Course::where('status', 1)
             ->orderBy('course_name')
             ->get();
 
@@ -31,11 +48,11 @@ class FeeStructureController extends Controller
     {
         $request->validate([
 
-            'course_id'=>'required',
+            'course_id' => 'required',
 
-            'fee_name'=>'required',
+            'fee_name' => 'required',
 
-            'amount'=>'required|numeric'
+            'amount' => 'required|numeric'
 
         ]);
 
@@ -43,7 +60,7 @@ class FeeStructureController extends Controller
 
         return redirect()
             ->route('fee-structures.index')
-            ->with('success','Fee Structure Added Successfully');
+            ->with('success', 'Fee Structure Added Successfully');
     }
 
     public function edit(FeeStructure $feeStructure)
@@ -52,7 +69,7 @@ class FeeStructureController extends Controller
 
         return view(
             'fee-structure.edit',
-            compact('feeStructure','courses')
+            compact('feeStructure', 'courses')
         );
     }
 
@@ -62,8 +79,8 @@ class FeeStructureController extends Controller
 
         return redirect()
             ->route('fee-structures.index')
-            ->with('success','Fee Structure Updated Successfully');
+            ->with('success', 'Fee Structure Updated Successfully');
     }
 
-    
+
 }

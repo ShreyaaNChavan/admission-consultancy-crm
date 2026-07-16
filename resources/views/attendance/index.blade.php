@@ -1,16 +1,53 @@
 @extends('layouts.app')
 
+@section('page-title','Attendance')
+
 @section('content')
 
-    <h2 class="text-3xl font-bold mb-6">
+<div class="space-y-6">
 
-        Attendance
+    {{-- Header --}}
+    <div class="flex items-center justify-between">
 
-    </h2>
+        <div>
 
+            <h2 class="text-3xl font-bold text-gray-900">
+
+                Attendance
+
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-500">
+
+                Manage daily attendance for all batches.
+
+            </p>
+
+        </div>
+
+        <div class="rounded-xl bg-blue-50 px-5 py-3">
+
+            <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+
+                Total Batches
+
+            </p>
+
+            <p class="mt-1 text-2xl font-bold text-blue-700">
+
+                {{ $batches->count() }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {{-- Success Message --}}
     @if(session('success'))
 
-        <div class="bg-green-100 border border-green-400 text-green-700 p-3 rounded mb-5">
+        <div class="rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
 
             {{ session('success') }}
 
@@ -18,71 +55,149 @@
 
     @endif
 
-    <div class="bg-white shadow rounded">
 
-        <table class="w-full">
-            <table class="w-full">
+    {{-- Table --}}
+    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
-                <thead class="bg-gray-200">
+        <div class="overflow-x-auto">
+
+            <table class="min-w-full">
+
+                <thead class="border-b border-gray-200 bg-gray-50">
 
                     <tr>
 
-                        <th class="p-3 text-left">Batch</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
 
-                        <th class="p-3 text-left">Course</th>
+                            Batch
 
-                        <th class="p-3 text-left">Action</th>
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                            Course
+
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                            Faculty
+
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                            Actions
+
+                        </th>
 
                     </tr>
 
                 </thead>
 
-                <tbody>
+                <tbody class="divide-y divide-gray-100 bg-white">
 
-                    @foreach($batches as $batch)
+                    @forelse($batches as $batch)
 
-                        <tr class="border-b">
+                        <tr class="transition hover:bg-gray-50">
 
-                            <td class="p-3">
+                            <td class="px-6 py-5">
 
-                                {{ $batch->batch_name }}
+                                <div class="font-semibold text-gray-900">
+
+                                    {{ $batch->batch_name }}
+
+                                </div>
 
                             </td>
 
-                            <td class="p-3">
+                            <td class="px-6 py-5 text-gray-700">
 
                                 {{ $batch->course?->course_name }}
 
                             </td>
 
-                            <td class="p-3 space-x-2">
+                            <td class="px-6 py-5 text-gray-700">
 
-                                <a href="{{ route('attendance.mark', $batch) }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                {{ $batch->faculty?->full_name ?? '-' }}
 
-                                    Mark Attendance
+                            </td>
 
-                                </a>
+                            <td class="px-6 py-5">
 
-                                <a href="{{ route('attendance.history', $batch) }}"
-                                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                                <div class="flex justify-center gap-3">
 
-                                    View History
+                                    <a
+                                        href="{{ route('attendance.mark',$batch) }}"
+                                        class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700">
 
-                                </a>
+                                        Mark Attendance
+
+                                    </a>
+
+                                    <a
+                                        href="{{ route('attendance.history',$batch) }}"
+                                        class="rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-600 transition hover:bg-green-50">
+
+                                        View History
+
+                                    </a>
+
+                                </div>
 
                             </td>
 
                         </tr>
 
-                    @endforeach
+                    @empty
+
+                        <tr>
+
+                            <td colspan="4" class="px-6 py-14">
+
+                                <div class="flex flex-col items-center">
+
+                                    <svg class="mb-4 h-14 w-14 text-gray-300"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24">
+
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.8"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+
+                                    </svg>
+
+                                    <h3 class="text-lg font-semibold text-gray-700">
+
+                                        No Batches Available
+
+                                    </h3>
+
+                                    <p class="mt-2 text-sm text-gray-500">
+
+                                        Create a batch before marking attendance.
+
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
 
                 </tbody>
 
             </table>
 
-        </table>
+        </div>
 
     </div>
+
+</div>
 
 @endsection

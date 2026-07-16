@@ -10,14 +10,40 @@ use Illuminate\Http\Request;
 
 class BatchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $batches = Batch::with([
+        $query = Batch::with([
             'course',
             'faculty'
-        ])->latest()->get();
+        ]);
 
-        return view('batch.index', compact('batches'));
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('batch_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('trainer_name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->course) {
+            $query->where('course_id', $request->course);
+        }
+
+        if ($request->status != '') {
+            $query->where('status', $request->status);
+        }
+
+        $batches = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $courses = Course::where('status', 1)
+            ->orderBy('course_name')
+            ->get();
+
+        return view('batch.index', compact(
+            'batches',
+            'courses'
+        ));
     }
 
     public function create()

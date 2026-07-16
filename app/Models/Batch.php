@@ -7,25 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Batch extends Model
 {
     protected $fillable = [
-
         'course_id',
-
         'batch_name',
-
-        'trainer_name',
-
+        'faculty_id',
         'start_date',
-
         'end_date',
-
         'timing',
-
         'capacity',
-
         'status',
-
     ];
-
     public function course()
     {
         return $this->belongsTo(Course::class);
@@ -40,6 +30,8 @@ class Batch extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
+
+
 
     public function attendances()
     {
