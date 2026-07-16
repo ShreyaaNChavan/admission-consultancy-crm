@@ -15,6 +15,7 @@ use App\Http\Controllers\Settings\DesignationController;
 use App\Http\Controllers\HR\EmployeeController;
 use App\Http\Controllers\Academic\AttendanceController;
 use App\Http\Controllers\Academic\StudentController;
+use App\Http\Controllers\Academic\FacultyController;
 
 
 Route::get('/', function () {
@@ -113,6 +114,7 @@ Route::post('/payments/{invoice}', [PaymentController::class, 'store'])
 Route::get('/receipt/{payment}', [ReceiptController::class, 'show'])->name('receipt.show');
 
 
+Route::resource('faculties', FacultyController::class);
 
 Route::resource('designations', DesignationController::class);
 

@@ -4,62 +4,105 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Designation;
 
 class DesignationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Designation::query();
+
+        if ($request->filled('search')) {
+
+            $query->where(
+                'designation_name',
+                'like',
+                '%' . $request->search . '%'
+            );
+        }
+
+        if ($request->filled('status')) {
+
+            $query->where('status', $request->status);
+        }
+
+        $designations = $query
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view(
+            'designation.index',
+            compact('designations')
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('designation.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'designation_name' => 'required|unique:designations',
+
+            'status' => 'required'
+
+        ]);
+
+        Designation::create([
+
+            'designation_name' => $request->designation_name,
+
+            'status' => $request->status
+
+        ]);
+
+        return redirect()
+            ->route('designations.index')
+            ->with('success', 'Designation Added Successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Designation $designation)
     {
-        //
+        return view(
+            'designation.edit',
+            compact('designation')
+        );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Designation $designation)
     {
-        //
+        $request->validate([
+
+            'designation_name' =>
+                'required|unique:designations,designation_name,' . $designation->id,
+
+            'status' => 'required'
+
+        ]);
+
+        $designation->update([
+
+            'designation_name' => $request->designation_name,
+
+            'status' => $request->status
+
+        ]);
+
+        return redirect()
+            ->route('designations.index')
+            ->with('success', 'Designation Updated Successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Designation $designation)
     {
-        //
-    }
+        $designation->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()
+            ->route('designations.index')
+            ->with('success', 'Designation Deleted Successfully');
     }
 }

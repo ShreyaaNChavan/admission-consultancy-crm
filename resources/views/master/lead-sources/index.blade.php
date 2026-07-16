@@ -1,77 +1,236 @@
 @extends('layouts.app')
-@section('page-title','Leads')
+
+@section('page-title', 'Lead Sources')
+
 @section('content')
 
-    <div class="flex justify-between items-center mb-5">
+    <div class="space-y-6">
 
-        <h2 class="text-3xl font-bold">
-            Lead Sources
-        </h2>
+        {{-- Filters --}}
+        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-        <a href="{{ route('lead-sources.create') }}" class="bg-blue-600 text-white px-5 py-2 rounded">
+            <form method="GET" action="{{ route('lead-sources.index') }}">
 
-            + Add Source
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-        </a>
+                    <div>
 
-    </div>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search lead source..."
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
 
-    @if(session('success'))
+                    </div>
 
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    <div>
 
-            {{ session('success') }}
+                        <select name="status"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                            <option value="">All Status</option>
+
+                            <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>
+                                Active
+                            </option>
+
+                            <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <button
+                            class="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
 
         </div>
 
-    @endif
+        {{-- Header --}}
+        <div class="flex items-center justify-between">
 
-    <table class="w-full bg-white shadow rounded">
+            <div>
 
-        <thead class="bg-gray-200">
+                <h2 class="text-3xl font-bold text-gray-900">
 
-            <tr>
+                    Lead Sources
 
-                <th class="p-3 text-left">Source Name</th>
+                </h2>
 
-                <th class="p-3 text-left">Status</th>
+                <p class="mt-1 text-sm text-gray-500">
 
-            </tr>
+                    Manage enquiry sources for admissions.
 
-        </thead>
+                </p>
 
-        <tbody>
+            </div>
 
-            @forelse($sources as $source)
+            <div class="flex items-center gap-4">
 
-                <tr class="border-b">
+                <div class="rounded-xl bg-blue-50 px-5 py-3">
 
-                    <td class="p-3">{{ $source->source_name }}</td>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 
-                    <td class="p-3">
+                        Total Sources
 
-                        {{ $source->status ? 'Active' : 'Inactive' }}
+                    </p>
 
-                    </td>
+                    <p class="mt-1 text-2xl font-bold text-blue-700">
 
-                </tr>
+                        {{ $sources->count() }}
 
-            @empty
+                    </p>
 
-                <tr>
+                </div>
 
-                    <td colspan="2" class="text-center p-5">
+                <a href="{{ route('lead-sources.create') }}"
+                    class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
 
-                        No Lead Sources Found
+                    + Add Source
 
-                    </td>
+                </a>
 
-                </tr>
+            </div>
 
-            @endforelse
+        </div>
 
-        </tbody>
+        {{-- Success Message --}}
+        @if(session('success'))
 
-    </table>
+            <div class="rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-green-700">
+
+                {{ session('success') }}
+
+            </div>
+
+        @endif
+
+        {{-- Table --}}
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+            <div class="overflow-x-auto">
+
+                <table class="min-w-full">
+
+                    <thead class="border-b border-gray-200 bg-gray-50">
+
+                        <tr>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                                Source Name
+
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                                Status
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100">
+
+                        @forelse($sources as $source)
+
+                            <tr class="hover:bg-gray-50 transition">
+
+                                <td class="px-6 py-4 font-medium text-gray-900">
+
+                                    {{ $source->source_name }}
+
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    @if($source->status)
+
+                                        <span
+                                            class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+
+                                            Active
+
+                                        </span>
+
+                                    @else
+
+                                        <span
+                                            class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+
+                                            Inactive
+
+                                        </span>
+
+                                    @endif
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="2" class="px-6 py-14 text-center">
+
+                                    <div class="flex flex-col items-center">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="mb-3 h-12 w-12 text-gray-300" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M17 20h5V4H2v16h5m10 0v-6H7v6m10 0H7" />
+
+                                        </svg>
+
+                                        <p class="text-lg font-semibold text-gray-700">
+
+                                            No Lead Sources Found
+
+                                        </p>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+
+                                            Create your first lead source to start tracking enquiries.
+
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {{-- Pagination --}}
+        <div>
+
+            {{ $sources->withQueryString()->links() }}
+
+        </div>
+
+    </div>
 
 @endsection

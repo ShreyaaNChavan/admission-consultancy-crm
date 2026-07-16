@@ -6,24 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+
     protected $fillable = [
 
         'employee_code',
-
         'full_name',
-
         'department_id',
-
         'designation_id',
-
+        'role_id',
         'phone',
-
         'email',
-
         'joining_date',
-
         'salary',
-
         'status',
 
     ];
@@ -36,5 +30,10 @@ class Employee extends Model
     public function designation()
     {
         return $this->belongsTo(Designation::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
