@@ -16,6 +16,7 @@ use App\Http\Controllers\HR\EmployeeController;
 use App\Http\Controllers\Academic\AttendanceController;
 use App\Http\Controllers\Academic\StudentController;
 use App\Http\Controllers\Academic\FacultyController;
+use App\Http\Controllers\HR\EmployeeAttendanceController;
 
 
 Route::get('/', function () {
@@ -143,3 +144,7 @@ Route::get(
     '/attendance/{batch}/history',
     [AttendanceController::class, 'history']
 )->name('attendance.history');
+
+
+
+Route::resource('employee-attendances', EmployeeAttendanceController::class);
