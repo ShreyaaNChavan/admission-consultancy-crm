@@ -96,4 +96,26 @@ class PaymentController extends Controller
             ->route('payments.index', $invoice)
             ->with('success', 'Payment Added Successfully');
     }
+
+    public function all(Request $request)
+    {
+        $query = Payment::with(['invoice.student']);
+
+        if ($request->filled('search')) {
+
+            $search = $request->search;
+
+            $query->where('receipt_no', 'like', "%{$search}%")
+                ->orWhereHas('invoice.student', function ($q) use ($search) {
+
+                    $q->where('full_name', 'like', "%{$search}%");
+
+                });
+
+        }
+
+        $payments = $query->latest()->paginate(10)->withQueryString();
+
+        return view('payment.all', compact('payments'));
+    }
 }

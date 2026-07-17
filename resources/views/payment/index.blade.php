@@ -28,6 +28,142 @@
 
         @endif
 
+        @php
+            $role = Auth::user()->role->role_name;
+        @endphp
+
+        @if($role == 'Accountant')
+
+            {{-- Record New Payment Form --}}
+            {{-- Add Payment --}}
+        <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+
+            <div class="mb-6">
+
+                <h2 class="text-xl font-semibold text-gray-900">
+
+                    Record New Payment
+
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-500">
+
+                    Enter payment details received from the student.
+
+                </p>
+                <form action="{{ route('payments.store', $invoice) }}" method="POST">
+
+                @csrf
+
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+                    {{-- Date --}}
+                    <div>
+
+                        <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                            Payment Date
+
+                        </label>
+
+                        <input type="date" name="payment_date" required
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+
+                    </div>
+
+                    {{-- Amount --}}
+                    <div>
+
+                        <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                            Amount
+
+                        </label>
+
+                        <input type="number" name="amount" required placeholder="Enter Amount"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+
+                    </div>
+
+                    {{-- Payment Mode --}}
+                    <div>
+
+                        <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                            Payment Mode
+
+                        </label>
+
+                        <select name="payment_mode"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+
+                            <option>Cash</option>
+                            <option>UPI</option>
+                            <option>Card</option>
+                            <option>Bank Transfer</option>
+                            <option>Cheque</option>
+
+                        </select>
+
+                    </div>
+
+                    {{-- Transaction --}}
+                    <div>
+
+                        <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                            Transaction Number
+
+                        </label>
+
+                        <input type="text" name="transaction_no" placeholder="Optional"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+
+                    </div>
+
+                    {{-- Remarks --}}
+                    <div class="lg:col-span-2">
+
+                        <label class="mb-2 block text-sm font-medium text-gray-700">
+
+                            Remarks
+
+                        </label>
+
+                        <textarea rows="4" name="remarks" placeholder="Additional payment notes..."
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-8 flex justify-end gap-3">
+
+                    <button type="reset"
+                        class="rounded-xl border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100">
+
+                        Reset
+
+                    </button>
+
+                    <button type="submit"
+                        class="rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-700">
+
+                        Save Payment
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            </div>
+
+
+
+        </div>
+        @endif
 
         {{-- Header --}}
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -181,132 +317,7 @@
 
 
 
-        {{-- Add Payment --}}
-        <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-
-            <div class="mb-6">
-
-                <h2 class="text-xl font-semibold text-gray-900">
-
-                    Record New Payment
-
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-500">
-
-                    Enter payment details received from the student.
-
-                </p>
-
-            </div>
-
-            <form action="{{ route('payments.store', $invoice) }}" method="POST">
-
-                @csrf
-
-                <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-                    {{-- Date --}}
-                    <div>
-
-                        <label class="mb-2 block text-sm font-medium text-gray-700">
-
-                            Payment Date
-
-                        </label>
-
-                        <input type="date" name="payment_date" required
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-
-                    </div>
-
-                    {{-- Amount --}}
-                    <div>
-
-                        <label class="mb-2 block text-sm font-medium text-gray-700">
-
-                            Amount
-
-                        </label>
-
-                        <input type="number" name="amount" required placeholder="Enter Amount"
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-
-                    </div>
-
-                    {{-- Payment Mode --}}
-                    <div>
-
-                        <label class="mb-2 block text-sm font-medium text-gray-700">
-
-                            Payment Mode
-
-                        </label>
-
-                        <select name="payment_mode"
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-
-                            <option>Cash</option>
-                            <option>UPI</option>
-                            <option>Card</option>
-                            <option>Bank Transfer</option>
-                            <option>Cheque</option>
-
-                        </select>
-
-                    </div>
-
-                    {{-- Transaction --}}
-                    <div>
-
-                        <label class="mb-2 block text-sm font-medium text-gray-700">
-
-                            Transaction Number
-
-                        </label>
-
-                        <input type="text" name="transaction_no" placeholder="Optional"
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-
-                    </div>
-
-                    {{-- Remarks --}}
-                    <div class="lg:col-span-2">
-
-                        <label class="mb-2 block text-sm font-medium text-gray-700">
-
-                            Remarks
-
-                        </label>
-
-                        <textarea rows="4" name="remarks" placeholder="Additional payment notes..."
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"></textarea>
-
-                    </div>
-
-                </div>
-
-                <div class="mt-8 flex justify-end gap-3">
-
-                    <button type="reset"
-                        class="rounded-xl border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100">
-
-                        Reset
-
-                    </button>
-
-                    <button type="submit"
-                        class="rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-700">
-
-                        Save Payment
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
+        
         {{-- Payment History --}}
         <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
 

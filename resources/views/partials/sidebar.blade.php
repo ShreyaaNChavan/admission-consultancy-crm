@@ -38,7 +38,7 @@
         </div>
 
         {{-- CRM --}}
-        @if(in_array($role, ['Super Admin', 'Sales Manager', 'Counselor']))
+        @if(in_array($role, ['Super Admin', 'Sales Manager', 'Counselor', 'Receptionist']))
 
             <div class="mb-8">
 
@@ -52,7 +52,7 @@
 
                     <a href="{{ route('leads.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                                {{ request()->routeIs('leads.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                            {{ request()->routeIs('leads.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Leads
 
@@ -60,7 +60,7 @@
 
                     <a href="{{ route('lead-sources.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm font-medium transition
-                        {{ request()->routeIs('lead-sources.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+                                    {{ request()->routeIs('lead-sources.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
 
                         Lead Sources
 
@@ -73,7 +73,7 @@
         @endif
 
         {{-- Academics --}}
-        @if($role == 'Super Admin')
+        @if(in_array($role, ['Super Admin', 'Faculty']))
 
             <div class="mb-8">
 
@@ -87,7 +87,7 @@
 
                     <a href="{{ route('courses.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                            {{ request()->routeIs('courses.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                        {{ request()->routeIs('courses.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Courses
 
@@ -95,7 +95,7 @@
 
                     <a href="{{ route('batches.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                            {{ request()->routeIs('batches.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                        {{ request()->routeIs('batches.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Batches
 
@@ -103,7 +103,7 @@
 
                     <a href="{{ route('attendance.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                            {{ request()->routeIs('attendance.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                        {{ request()->routeIs('attendance.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Attendance
 
@@ -116,7 +116,7 @@
         @endif
 
         {{-- Admissions --}}
-        @if($role == 'Super Admin')
+        @if(in_array($role, ['Super Admin', 'Sales Manager', 'Counselor','Accountant']))
 
             <div class="mb-8">
 
@@ -130,7 +130,7 @@
 
                     <a href="{{ route('admissions.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                            {{ request()->routeIs('admissions.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                        {{ request()->routeIs('admissions.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Admissions
 
@@ -138,7 +138,7 @@
 
                     <a href="{{ route('students.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                            {{ request()->routeIs('students.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                        {{ request()->routeIs('students.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Students
 
@@ -150,31 +150,61 @@
 
         @endif
 
-
-        {{-- Finance --}}
-        @if(in_array($role, ['Super Admin', 'Accountant']))
+        @if($role == 'Super Admin')
 
             <div class="mb-8">
 
                 <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
 
-                    Finance
+                    Administration
 
                 </p>
 
                 <div class="space-y-1">
 
-                    <a href="{{ route('fee-structures.index') }}"
+                    <a href="{{ route('users.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                            {{ request()->routeIs('fee-structures.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                    {{ request()->routeIs('users.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
-                        Fee Structures
+                        User Management
 
                     </a>
 
                 </div>
 
             </div>
+
+        @endif
+
+        {{-- Finance --}}
+        @if(in_array($role, ['Super Admin', 'Accountant']))
+
+                    <div class="mb-8">
+
+                        <p class="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+
+                            Finance
+
+                        </p>
+
+                        <div class="space-y-1">
+
+                            <a href="{{ route('fee-structures.index') }}"
+                                class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                                                                {{ request()->routeIs('fee-structures.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+
+                                Fee Structures
+
+                            </a>
+
+                            <a href="{{ route('payments.all') }}" class="flex items-center rounded-lg px-4 py-3 text-sm transition
+            {{ request()->routeIs('payments.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                Payments
+                            </a>
+
+                        </div>
+
+                    </div>
 
         @endif
 
@@ -194,34 +224,30 @@
 
                     <a href="{{ route('employees.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                                {{ request()->routeIs('employees.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                    {{ request()->routeIs('employees.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Employees
 
                     </a>
 
-                    <!-- <a href="{{ route('employees.index') }}"
-                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                                {{ request()->routeIs('employees.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
-
-                        Employees
-
-                    </a> -->
-
-
                     <a href="{{ route('employee-attendances.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                                {{ request()->routeIs('employee-attendance.index*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
-
+                    {{ request()->routeIs('employee-attendances.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Employee Attendance
 
                     </a>
 
+                    <a href="{{ route('leave-requests.index') }}"
+                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
+                    {{ request()->routeIs('leave-requests.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
+                        Leave Management
+
+                    </a>
                     <a href="{{ route('faculties.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm font-medium transition
-                            {{ request()->routeIs('faculties.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+                                            {{ request()->routeIs('faculties.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
 
                         Faculty
 
@@ -229,7 +255,7 @@
 
                     <a href="{{ route('designations.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                                                {{ request()->routeIs('designations.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
+                                                                {{ request()->routeIs('designations.*') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
 
                         Designations
 
@@ -240,6 +266,8 @@
             </div>
 
         @endif
+
+
 
         <div class="mt-10 border-t border-gray-200 pt-6">
 

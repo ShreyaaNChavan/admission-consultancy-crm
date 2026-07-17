@@ -17,7 +17,8 @@ use App\Http\Controllers\Academic\AttendanceController;
 use App\Http\Controllers\Academic\StudentController;
 use App\Http\Controllers\Academic\FacultyController;
 use App\Http\Controllers\HR\EmployeeAttendanceController;
-
+use App\Http\Controllers\HR\LeaveRequestController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -115,6 +116,9 @@ Route::post('/payments/{invoice}', [PaymentController::class, 'store'])
 Route::get('/receipt/{payment}', [ReceiptController::class, 'show'])->name('receipt.show');
 
 
+Route::get('/payments', [PaymentController::class, 'all'])
+    ->name('payments.all');
+
 Route::resource('faculties', FacultyController::class);
 
 Route::resource('designations', DesignationController::class);
@@ -148,3 +152,5 @@ Route::get(
 
 
 Route::resource('employee-attendances', EmployeeAttendanceController::class);
+Route::resource('leave-requests', LeaveRequestController::class);
+Route::resource('users', UserController::class);
