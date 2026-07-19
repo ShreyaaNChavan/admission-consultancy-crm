@@ -121,7 +121,13 @@ class EmployeeController extends Controller
 
         $designation = Designation::findOrFail($request->designation_id);
 
-        if (trim($designation->designation_name) === 'Faculty') {
+        $facultyDesignations = [
+            'Faculty',
+            'Senior Trainer',
+            'Technical Trainer',
+        ];
+
+        if (in_array(trim($designation->designation_name), $facultyDesignations)) {
 
             Faculty::create([
 
@@ -131,7 +137,7 @@ class EmployeeController extends Controller
 
                 'qualification' => '-',
 
-                'specialization' => 'Faculty',
+                'specialization' => $designation->designation_name,
 
                 'phone' => $employee->phone,
 
@@ -216,7 +222,13 @@ class EmployeeController extends Controller
 
         $designation = Designation::findOrFail($request->designation_id);
 
-        if (trim($designation->designation_name) === 'Faculty') {
+        $facultyDesignations = [
+            'Faculty',
+            'Senior Trainer',
+            'Technical Trainer',
+        ];
+
+        if (in_array(trim($designation->designation_name), $facultyDesignations)) {
 
             $faculty = Faculty::where('email', $employee->email)->first();
 
@@ -228,7 +240,7 @@ class EmployeeController extends Controller
 
                     'qualification' => $faculty->qualification,
 
-                    'specialization' => 'Faculty',
+                    'specialization' => $designation->designation_name,
 
                     'phone' => $employee->phone,
 
@@ -248,7 +260,7 @@ class EmployeeController extends Controller
 
                     'qualification' => '-',
 
-                    'specialization' => 'Faculty',
+                    'specialization' => $designation->designation_name,
 
                     'phone' => $employee->phone,
 

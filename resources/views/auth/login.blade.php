@@ -83,24 +83,7 @@
 
                     </div>
 
-                    {{-- Remember --}}
-                    <div class="mb-8 flex items-center justify-between">
-
-                        <label class="flex items-center gap-2 text-sm text-gray-600">
-
-                            <input type="checkbox" class="rounded">
-
-                            Remember Me
-
-                        </label>
-
-                        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-700">
-
-                            Forgot Password?
-
-                        </a>
-
-                    </div>
+                    
 
                     {{-- Button --}}
                     <button type="submit"

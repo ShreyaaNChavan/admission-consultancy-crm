@@ -1,4 +1,4 @@
-<div class="rounded-2xl border border-gray-200 bg-white p-6">
+<div class="h-full rounded-2xl border border-gray-200 bg-white p-6">
 
     <div class="flex items-center justify-between">
 

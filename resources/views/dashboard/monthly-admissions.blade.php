@@ -20,8 +20,7 @@
 
         <div>
 
-            <select
-                class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none">
+            <select class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none"> 
 
                 <option>This Year</option>
                 <option>Last Year</option>

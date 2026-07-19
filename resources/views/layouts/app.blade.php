@@ -9,21 +9,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100 overflow-x-hidden">
-    <div class="min-h-screen">
+<body class="bg-gray-100 overflow-hidden">
+
+    <div class="flex h-screen">
 
         {{-- Sidebar --}}
         @include('partials.sidebar')
 
         {{-- Main Area --}}
-        <div class="ml-72 min-h-screen">
+        <div class="ml-72 flex flex-1 flex-col">
 
             {{-- Navbar --}}
             @include('partials.navbar', [
                 'pageTitle' => trim($__env->yieldContent('page-title')) ?: 'Dashboard'
             ])
 
-            <main class="p-6">
+            <main class="flex-1 overflow-y-auto p-6">
 
                 <div class="mx-auto w-full max-w-7xl">
 
@@ -40,5 +41,4 @@
     @stack('scripts')
 
 </body>
-
 </html>

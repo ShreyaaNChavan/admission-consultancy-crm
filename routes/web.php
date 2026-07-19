@@ -19,6 +19,11 @@ use App\Http\Controllers\Academic\FacultyController;
 use App\Http\Controllers\HR\EmployeeAttendanceController;
 use App\Http\Controllers\HR\LeaveRequestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PayrollController;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Controllers\Employee\EmployeeLeaveController;
+use App\Http\Controllers\Employee\EmployeePayrollController;
+use App\Http\Controllers\Employee\EmployeeProfileController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -154,3 +159,32 @@ Route::get(
 Route::resource('employee-attendances', EmployeeAttendanceController::class);
 Route::resource('leave-requests', LeaveRequestController::class);
 Route::resource('users', UserController::class);
+Route::resource('payrolls', PayrollController::class);
+
+Route::get('/payrolls/{payroll}/pdf', [PayrollController::class, 'downloadPdf'])
+    ->name('payrolls.pdf');
+
+
+Route::get('/employee/leave', [EmployeeLeaveController::class, 'index'])
+    ->name('employee.leave.index');
+
+Route::get('/employee/leave/create', [EmployeeLeaveController::class, 'create'])
+    ->name('employee.leave.create');
+
+Route::post('/employee/leave', [EmployeeLeaveController::class, 'store'])
+    ->name('employee.leave.store');
+
+Route::delete('/employee/leave/{leaveRequest}', [EmployeeLeaveController::class, 'destroy'])
+    ->name('employee.leave.destroy');
+
+Route::get('/employee/payroll', [EmployeePayrollController::class, 'index'])
+    ->name('employee.payroll.index');
+
+Route::get('/employee/payroll/{payroll}', [EmployeePayrollController::class, 'show'])
+    ->name('employee.payroll.show');
+
+Route::get('/employee/payroll/{payroll}/pdf', [EmployeePayrollController::class, 'downloadPdf'])
+    ->name('employee.payroll.pdf');
+
+Route::get('/employee/profile', [EmployeeProfileController::class, 'index'])
+    ->name('employee.profile');
