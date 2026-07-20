@@ -219,12 +219,16 @@
                 </a>
 
                 <button
-                    type="submit"
-                    class="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
+                    type="submit" class="rounded-lg bg-brand-500 px-6 py-2 text-black
+                    shadow-sm transition hover:bg-blue-700">
 
                     Submit Leave Request
 
                 </button>
+
+                
+
+                
 
             </div>
 

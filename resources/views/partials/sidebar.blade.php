@@ -409,11 +409,7 @@
 
                     </a>
 
-                    <a href="#" class="flex items-center rounded-lg px-4 py-3 text-sm text-gray-400 cursor-not-allowed">
-
-                        My Attendance
-
-                    </a>
+                    
 
                     <a href="{{ route('employee.payroll.index') }}"
                         class="flex items-center rounded-lg px-4 py-3 text-sm transition
@@ -423,13 +419,6 @@
 
                     </a>
 
-                    <a href="{{ route('employee.profile') }}"
-                        class="flex items-center rounded-lg px-4 py-3 text-sm transition
-                            {{ request()->routeIs('employee.profile') ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">
-
-                        My Profile
-
-                    </a>
 
                 </div>
 
