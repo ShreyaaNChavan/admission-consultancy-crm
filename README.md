@@ -18,28 +18,35 @@ A comprehensive **Education CRM & ERP System** developed using **Laravel 12** to
 
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
+<img width="1920" height="886" alt="image" src="https://github.com/user-attachments/assets/d56b9575-b7e8-4695-98a0-ea86db23166c" />
 
 ### Leads Module
-![Leads](screenshots/leads.png)
+<img width="1920" height="880" alt="image" src="https://github.com/user-attachments/assets/d25d7a54-9856-4cec-9db8-c8325ab689dd" />
 
 ### Admissions Module
-![Admissions](screenshots/admissions.png)
+<img width="1920" height="891" alt="image" src="https://github.com/user-attachments/assets/c6adcb0a-b7ab-4152-8008-8e0e5439f084" />
 
-### Students Module
-![Students](screenshots/students.png)
+### Student's Attendance Module
+<img width="1920" height="731" alt="image" src="https://github.com/user-attachments/assets/13470613-8019-4dc4-b4bd-c3453697e6a6" />
+<br>
+<img width="1909" height="805" alt="image" src="https://github.com/user-attachments/assets/f87c84e6-4f96-44af-b5d8-4afece76f838" />
+<br>
+<img width="1914" height="834" alt="image" src="https://github.com/user-attachments/assets/30c03a58-dcc8-4279-860a-d410c3e429a5" />
 
 ### Finance Module
-![Finance](screenshots/finance.png)
+<img width="1920" height="831" alt="image" src="https://github.com/user-attachments/assets/ef595188-b12f-491d-8d33-fefa7d3c0861" />
+<br>
+<img width="1920" height="855" alt="image" src="https://github.com/user-attachments/assets/4037091e-0879-411f-a383-3f0215c20756" />
 
 ### Employee Management
-![Employees](screenshots/employees.png)
+<img width="1920" height="807" alt="image" src="https://github.com/user-attachments/assets/6cf9bdfd-73cb-401c-ba98-59c21e67880b" />
+<img width="1920" height="853" alt="image" src="https://github.com/user-attachments/assets/214e4e19-0516-4e99-b2d0-203f586a23bc" />
 
 ### Leave Management
-![Leave](screenshots/leave.png)
+<img width="1920" height="851" alt="image" src="https://github.com/user-attachments/assets/8c5c8c04-cb94-40f4-b056-44eac7b43669" />
 
-### Payroll
-![Payroll](screenshots/payroll.png)
+### Designations
+<img width="1920" height="851" alt="image" src="https://github.com/user-attachments/assets/9d878ddf-bcb0-4029-b316-c51c9f628dca" />
 
 ---
 
