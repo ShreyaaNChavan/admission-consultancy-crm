@@ -26,6 +26,10 @@ class LeadController extends Controller
 
             $query = Lead::where('assigned_to', $user->id);
 
+        } elseif ($user->role->role_name == 'Receptionist') {
+
+            $query = Lead::where('created_by', $user->id);
+
         } else {
 
             $query = Lead::whereRaw('1=0');
