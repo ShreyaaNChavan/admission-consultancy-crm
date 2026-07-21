@@ -1,59 +1,277 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Education CRM & ERP System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive **Education CRM & ERP System** developed using **Laravel 12** to streamline the complete admission process of an educational institute. The system provides role-based access for different departments, enabling efficient management of student inquiries, admissions, finance, HR, payroll, attendance, and employee self-service.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Live Demo
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Project URL:**  
+ https://edtch-crm.rf.gd/
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+##  Screenshots
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Login Page
+<img width="1913" height="834" alt="image" src="https://github.com/user-attachments/assets/8bc89158-2534-49f1-b2c3-d058b5462251" />
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Leads Module
+![Leads](screenshots/leads.png)
 
-### Premium Partners
+### Admissions Module
+![Admissions](screenshots/admissions.png)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Students Module
+![Students](screenshots/students.png)
 
-## Contributing
+### Finance Module
+![Finance](screenshots/finance.png)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Employee Management
+![Employees](screenshots/employees.png)
 
-## Code of Conduct
+### Leave Management
+![Leave](screenshots/leave.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Payroll
+![Payroll](screenshots/payroll.png)
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#  Features
 
-## License
+## Student CRM
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Lead Management
+- Inquiry Registration
+- Counselor Assignment
+- Lead Follow-up
+- Lead Status Tracking
+- Admission Conversion
+- Student Management
+
+## Finance
+
+- Fee Invoice Generation
+- Fee Payment
+- Payment Validation
+- Payment History
+- Printable Receipts
+
+## Human Resource Management
+
+- Employee Management
+- Attendance Management
+- Leave Management
+- Payroll Management
+
+## Employee Self Service (ESS)
+
+- View Profile
+- Apply Leave
+- View Leave Status
+- View Payroll
+
+## Security
+
+- Role Based Access Control (RBAC)
+- Authentication
+- Authorization
+- Validation
+- Secure CRUD Operations
+
+---
+
+#  User Roles
+
+- Super Admin
+- Sales Manager
+- Counselor
+- Accountant
+- HR
+- Faculty
+- Receptionist
+
+---
+
+#  Workflow
+
+```
+Receptionist
+        │
+        ▼
+Create Student Lead
+        │
+        ▼
+Sales Manager
+Assign Counselor
+        │
+        ▼
+Counselor
+Lead Follow-up
+        │
+        ▼
+Interested Student
+        │
+        ▼
+Ready for Admission
+        │
+        ▼
+Super Admin
+Admission Process
+        │
+        ▼
+Student Created
+        │
+        ▼
+Accountant
+Invoice & Fee Payment
+        │
+        ▼
+Faculty
+Attendance
+        │
+        ▼
+HR
+Employee & Payroll Management
+```
+
+---
+
+#  Tech Stack
+
+## Backend
+
+- Laravel 12
+- PHP 8.2
+
+## Frontend
+
+- Blade
+- Tailwind CSS
+- JavaScript
+- Alpine.js
+
+## Database
+
+- MySQL
+
+## Development Tools
+
+- Composer
+- Vite
+- Git
+- GitHub
+
+---
+
+#  Project Modules
+
+- Authentication
+- Dashboard
+- Lead Management
+- Admissions
+- Students
+- Courses
+- Batches
+- Fee Management
+- Payments
+- Employees
+- Departments
+- Leave Management
+- Attendance
+- Payroll
+- Reports
+- Employee Self Service
+
+---
+
+
+#  Demo Credentials
+
+## Super Admin
+
+```
+Email : admin@crm.com
+Password : admin123
+```
+
+## Sales Manager
+
+```
+Email : sales@crm.com
+Password : 123456
+```
+
+## Counselor
+
+```
+Email : rahul@crm.com
+Password : 123456
+```
+
+```
+Email : priya@crm.com
+Password : 123456
+```
+
+## Accountant
+
+```
+Email : jasika123@crm.com
+Password : 123456
+```
+
+## HR
+
+```
+Email : hr@crm.com
+Password : 123456
+```
+
+## Receptionist
+
+```
+Email : shweta@crm.com
+Password : 123456
+```
+
+## Faculty
+
+```
+Email : gauri@crm.com
+Password : 123456
+```
+
+```
+Email : shankar@crm.com
+Password : 123456
+```
+
+---
+
+
+---
+
+
+# 📜 License
+
+This project is developed for **educational purposes** as part of an internship project.
+
+---
+
+#  Developer
+
+**Chavan Shreya Navnath**
+
+- AI & Data Science Engineer
+- Full Stack Laravel Developer
+
+---
+
+## ⭐ If you like this project, don't forget to give it a star!
