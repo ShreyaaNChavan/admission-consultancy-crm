@@ -266,7 +266,7 @@ Password : 123456
 ---
 
 
-# 📜 License
+#  License
 
 This project is developed for **educational purposes** as part of an internship project.
 
